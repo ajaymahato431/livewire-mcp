@@ -1,0 +1,21 @@
+{
+  "name": "livewire-mcp",
+  "version": "1.0.0",
+  "description": "Token-optimized MCP server for Livewire documentation",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "livewire",
+    "mcp",
+    "laravel",
+    "documentation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.2.0"
+  }
+}
