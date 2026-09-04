@@ -51,8 +51,7 @@
     "url": "https://github.com/ajaymahato431/livewire-mcp/issues"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
