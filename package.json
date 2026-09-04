@@ -1,6 +1,6 @@
 {
   "name": "livewire-mcp",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Model Context Protocol server that serves Livewire documentation to AI coding agents",
   "type": "module",
   "main": "index.js",
@@ -21,6 +21,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "node --test test/core.test.mjs test/env-example.test.mjs test/livewire.test.mjs",
+    "prepublishOnly": "npm test",
     "test:integration": "node --test --test-timeout=90000 test/integration.test.mjs",
     "test:all": "npm test && npm run test:integration"
   },
@@ -51,8 +52,7 @@
     "url": "https://github.com/ajaymahato431/livewire-mcp/issues"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
