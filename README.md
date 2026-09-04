@@ -131,6 +131,18 @@ like it has hung — it is waiting for a client. Use `--help` to inspect it.
 claude mcp add livewire-docs -- npx -y livewire-mcp
 ```
 
+The server needs no credentials. If you share an outbound IP with heavy GitHub
+traffic and start seeing `429` responses, add an optional read-only
+`GITHUB_TOKEN` — see [Creating a GitHub token](#creating-a-github-token):
+
+```bash
+claude mcp add livewire-docs -s user -e GITHUB_TOKEN=ghp_your_token_here -- npx -y livewire-mcp
+```
+
+Replace `ghp_your_token_here` with your own token. `-s user` registers the server
+for every project on your machine; drop it to scope it to the current project.
+Never commit the token.
+
 ### Claude Desktop
 
 Edit `claude_desktop_config.json`:
@@ -300,6 +312,44 @@ enough.
 There is deliberately no `--github-token` flag: a secret passed as a command-line
 argument is visible to anyone who can list processes. Use the environment, or
 your MCP client's `env` block.
+
+#### Creating a GitHub token
+
+The token is used only to raise the anonymous rate limit on public reads from
+`raw.githubusercontent.com`, so it needs **no scopes and no repository write
+access**.
+
+**Fine-grained token (recommended)**
+
+1. Open <https://github.com/settings/personal-access-tokens/new> — GitHub →
+   your avatar → *Settings* → *Developer settings* → *Personal access tokens* →
+   *Fine-grained tokens* → *Generate new token*.
+2. Give it a name such as `livewire-mcp` and pick an expiry.
+3. Under **Repository access** choose *Public Repositories (read-only)*.
+4. Leave every entry under **Permissions** at *No access*.
+5. Click *Generate token* and copy the `github_pat_…` value — GitHub shows it
+   only once.
+
+**Classic token**
+
+1. Open <https://github.com/settings/tokens/new> — *Settings* → *Developer
+   settings* → *Personal access tokens* → *Tokens (classic)* → *Generate new
+   token (classic)*.
+2. Add a note such as `livewire-mcp` and pick an expiry.
+3. **Tick no scopes.** An empty scope list still lifts the rate limit for public
+   content.
+4. Click *Generate token* and copy the `ghp_…` value.
+
+Then hand it to the server:
+
+| Client | How |
+| --- | --- |
+| Claude Code | `claude mcp add livewire-docs -s user -e GITHUB_TOKEN=<token> -- npx -y livewire-mcp` |
+| Claude Desktop / Cursor / Cline / Windsurf | add `GITHUB_TOKEN` to the `env` block — see [Passing configuration](#passing-configuration) |
+| Local clone | `echo "GITHUB_TOKEN=<token>" >> .env` — see [Using a `.env` file](#using-a-env-file) |
+
+Treat the token like a password: keep it out of version control, and revoke it at
+<https://github.com/settings/tokens> if it leaks.
 
 ### Using a `.env` file
 
